@@ -63,7 +63,7 @@ app.use((error, req, res, next) => {
 
 //Pongo el puerto que se pide en el enunciado
 const puerto = 8080
-const server = app.listen(puerto, () => {
+const server = app.listen(process.env.PORT || port, () => {
   console.log(`servidor escuchando en http://localhost:${puerto}`)
 })
 
