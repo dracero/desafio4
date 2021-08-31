@@ -1,8 +1,10 @@
 import express from 'express';
+import cors from "cors";
 import productos from './api/productos.js';
 
 // creo una app de tipo express
 const app = express()
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
@@ -62,9 +64,9 @@ app.use((error, req, res, next) => {
 })
 
 //Pongo el puerto que se pide en el enunciado
-const puerto = 8080
+const port = 8080
 const server = app.listen(process.env.PORT || port, () => {
-  console.log(`servidor escuchando en http://localhost:${puerto}`)
+  console.log(`servidor escuchando en http://localhost:${port}`)
 })
 
 //salida enb caso de error

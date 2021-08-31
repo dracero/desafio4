@@ -35,17 +35,25 @@ class Producto {
     }
 
     getById(ind){
+      try{  
         let db = this.productos;
         let index = db.findIndex(x => x.id == ind);
         return db[index];
+      }catch{
+        throw new Error('producto no encontrado') 
+      } 
     }
 
     delById(ind){
+      try{  
         let db = this.productos;
         let index = db.findIndex(x => x.id == ind);
         let erase = db[index]
         db.splice(index,1);
         return erase;
+        } catch{
+        throw new Error('producto no encontrado') 
+        } 
     }
 
 }
