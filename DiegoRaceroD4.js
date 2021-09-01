@@ -58,7 +58,7 @@ app.delete('/api/productos/:id', (req, res) => {
   res.json(prods)
 })
 
-//Manejo de errores
+//Manejo de errores con app express.
 app.use((error, req, res, next) => {
   res.status(400).json({ error: error.message })
 })
