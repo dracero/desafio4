@@ -1,15 +1,8 @@
-import express from 'express';
-import cors from "cors";
 import productos from './api/productos.js';
-
-// creo una app de tipo express
-const app = express()
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+import rutas from "./rutas.js";
 
 //leo todos los productos y los muestro
-app.get('/api/productos', (req, res) => {
+rutas.get('/', (req, res) => {
   const prods = productos.getAll()
   if (prods.length === 0) {
     throw new Error('No hay productos cargados')
@@ -18,7 +11,7 @@ app.get('/api/productos', (req, res) => {
 })
 
 //leo un id particular
-app.get('/api/productos/:id', (req, res) => {
+rutas.get('/:id', (req, res) => {
   const { id } = req.params
   const prods = productos.getById(id)
   if (prods === undefined) throw new Error('producto no encontrado')
@@ -26,7 +19,7 @@ app.get('/api/productos/:id', (req, res) => {
 })
 
 //ingreso los productos, los persisto en memoria
-app.post('/api/productos', (req, res) => {
+rutas.post('/', (req, res) => {
   console.log(req.query);
   const producto = productos.save(
     req.query.title,
@@ -37,7 +30,7 @@ app.post('/api/productos', (req, res) => {
 })
 
 //modifica un valor segun el id
-app.put('/api/productos/:id', (req, res) => {
+rutas.put('/:id', (req, res) => {
   console.log(req.query);
   const { id } = req.params
   const producto = productos.update(
@@ -51,25 +44,9 @@ app.put('/api/productos/:id', (req, res) => {
 })
 
 //borro el producto indicado
-app.delete('/api/productos/:id', (req, res) => {
+rutas.delete('/:id', (req, res) => {
   const { id } = req.params
   const prods = productos.delById(id)
   if (prods === undefined) throw new Error('producto no encontrado')
   res.json(prods)
-})
-
-//Manejo de errores con app express.
-app.use((error, req, res, next) => {
-  res.status(400).json({ error: error.message })
-})
-
-//Pongo el puerto que se pide en el enunciado
-const port = 8080
-const server = app.listen(process.env.PORT || port, () => {
-  console.log(`servidor escuchando en http://localhost:${port}`)
-})
-
-//salida enb caso de error
-server.on('error', error => {
-  console.log('error en el servidor:', error)
 })
